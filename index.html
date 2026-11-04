@@ -5,6 +5,14 @@
   <title>ASAR Media Production Tracker</title>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="description" content="ASAR Media Content Production Tracker">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#E5322D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ASAR Tracker">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
   <script>
 // ==========================================
 // ASAR MEDIA STANDALONE RUNTIME & PERSISTENCE
@@ -3716,6 +3724,7 @@ body.tvmode .tv .nl-bub.nl-ann{animation-duration:.7s,2.4s!important;animation-i
       <span id="hdMonth"></span>
       <span class="live" id="live"><i></i><span>Connecting</span></span>
       <button class="btn-ghost writer" id="openInvite" title="Invite team members & preview employee views">✉ Invite Team</button>
+      <button class="btn-ghost" data-act="install-pwa" title="Install to mobile or desktop">📲 Install App</button>
       <button class="btn-ghost writer" id="openSetup" hidden>Setup</button>
     </div>
   </header>
@@ -3809,6 +3818,11 @@ body.tvmode .tv .nl-bub.nl-ann{animation-duration:.7s,2.4s!important;animation-i
       <svg class="id-logo" viewBox="0 0 64 64" role="img" aria-label="ASAR Media logo"><circle cx="32" cy="32" r="30" fill="#E5322D"/><circle cx="32" cy="32" r="30" fill="#E5322D"/><path class="dn-swirl" pathLength="100" d="M20 25.5c3.5-3.2 11-6.8 16.5-6.6 3 .1 3.4 2 1.2 3.8-4.6 3.8-13.2 8.3-16.6 12.2-2.4 2.8-.6 4.4 2.6 3.3 6.3-2.1 13.8-6.6 19.6-7.6 2.9-.5 3.6 1.2 1.6 3.2-3.6 3.6-10.4 7.4-12.2 10-1.2 1.8 0 2.7 2.2 2.2l7.2-1.7" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <h2>Welcome to ASAR Media</h2>
       <p>Please select your name to enter the tracker.<br><strong style="color:#B91C1C">Important:</strong> Once selected, this device is locked to your identity for daily production & attendance.</p>
+      <div style="margin:10px 0 4px">
+        <button type="button" class="btn keep" data-act="install-pwa" style="padding:8px 18px;background:#0F172A;color:#fff;border:1px solid #334155;border-radius:10px;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+          📲 Install App to Phone Home Screen
+        </button>
+      </div>
     </div>
 
     <div class="id-grid" id="idStaffCards"></div>
@@ -3930,6 +3944,43 @@ body.tvmode .tv .nl-bub.nl-ann{animation-duration:.7s,2.4s!important;animation-i
         <button type="button" class="btn-ghost" id="resetLocalIdentityBtn" style="color:#B91C1C;border-color:#FCA5A5">Reset Identity on This Device</button>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="ov" id="installModal" hidden>
+  <div class="panel" style="max-width:440px;text-align:center;border-radius:24px;padding:28px 22px;box-shadow:0 20px 50px rgba(0,0,0,0.3)">
+    <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-right:-4px">
+      <button type="button" class="btn-ghost" id="closeInstallModal" style="padding:2px 8px;font-size:16px">✕</button>
+    </div>
+    <img src="icon-192.png" alt="ASAR Media" style="width:76px;height:76px;border-radius:18px;box-shadow:0 8px 24px rgba(229,50,45,0.35);margin-bottom:12px;border:2px solid rgba(255,255,255,0.8)">
+    <h3 style="margin:0 0 6px;font-size:20px;font-weight:800;color:#0F172A">Install ASAR Media Tracker</h3>
+    <p style="margin:0 0 16px;font-size:13px;color:#64748B;line-height:1.5">Add to your smartphone home screen for 1-tap daily access, automatic attendance &amp; instant work logging.</p>
+
+    <div id="installPromptDirectBox" style="display:none;margin-bottom:14px">
+      <button type="button" class="btn gold" id="doNativeInstallBtn" style="width:100%;padding:14px;font-size:15px;font-weight:800;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#E5322D,#B91C1C);color:#fff;box-shadow:0 4px 14px rgba(229,50,45,0.4)">
+        📲 Tap to Install Application
+      </button>
+    </div>
+
+    <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:16px;text-align:left;font-size:13px;color:#334155;line-height:1.7;margin-bottom:14px">
+      <div style="font-weight:800;color:#0F172A;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+        <span>📱 How to Add to Phone Home Screen:</span>
+      </div>
+      <div style="margin-bottom:10px">
+        <b style="color:#0F172A">🍎 iPhone / iPad (Safari):</b><br>
+        1. Tap the <b>Share icon</b> (<span style="font-size:15px">⎋</span> or square with arrow ⬆) at bottom.<br>
+        2. Scroll down &amp; tap <b>"Add to Home Screen"</b> (➕).<br>
+        3. Tap <b>"Add"</b> at the top right.
+      </div>
+      <div>
+        <b style="color:#0F172A">🤖 Android (Chrome):</b><br>
+        1. Tap the <b>three dots (⋮)</b> in the top right.<br>
+        2. Tap <b>"Install app"</b> or <b>"Add to Home screen"</b>.<br>
+        3. Confirm <b>Install</b>.
+      </div>
+    </div>
+
+    <button type="button" class="btn-ghost" id="closeInstallModal2" style="width:100%;padding:10px;font-weight:600">Got it, close</button>
   </div>
 </div>
 <script>
@@ -4338,7 +4389,7 @@ function renderDx(){
   const tabs=[['dash','Dashboard','grid'],...(boss?[['own','Owner','crown']]:[]),['upd',boss?'Team':'My Work','users'],['works','Work done','check'],...(boss?[['invitemenu','✉ Invite Team','send']]:[]),...(phCan()?[['hub','Post Hub','send']]:[]),...(lead?[['day','Daily Tasks','cal']]:[]),['att','Attendance','user'],['pay','Payroll','coin'],...(boss?[['fin','Finance','chart']]:[]),['tv','Live TV','tv']];
   const cur=curMon(),sel=S.dm||cur,[cy,cm]=cur.split('-').map(Number),mopts=[];for(let i=-6;i<=1;i++){const d=new Date(cy,cm-1+i,1),v=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');mopts.push(`<option value="${v}"${v===sel?' selected':''}>${d.toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</option>`)}
   const top=`<header class="dx-top"><div class="dx-brand"><span class="dx-logo">${dnMark(42)}</span><div><b>ASAR MEDIA <em>DIGITAL MEDIA</em></b><small>Content Production Tracker</small></div></div>
-    <div class="dx-tr"><label class="dx-mon">${dxi('cal',18)}<select id="dxMon" data-nokeep aria-label="Month">${mopts.join('')}</select></label><span class="dx-live"><i></i>LIVE</span>${boss?`<button class="btn gold keep dx-inv-top-btn" data-act="open-invite" style="padding:7px 16px;background:linear-gradient(135deg,#E5322D,#B91C1C);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 3px 12px rgba(229,50,45,.4);margin:0 4px">✉ Invite Team</button>`:''}${apUser()}<div class="dx-clock"><b data-dxclock="t">${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</b><small data-dxclock="d">${now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</small></div></div></header>`;
+    <div class="dx-tr"><label class="dx-mon">${dxi('cal',18)}<select id="dxMon" data-nokeep aria-label="Month">${mopts.join('')}</select></label><span class="dx-live"><i></i>LIVE</span>${boss?`<button class="btn gold keep dx-inv-top-btn" data-act="open-invite" style="padding:7px 16px;background:linear-gradient(135deg,#E5322D,#B91C1C);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 3px 12px rgba(229,50,45,.4);margin:0 4px">✉ Invite Team</button>`:''}<button class="btn keep dx-pwa-btn" data-act="install-pwa" style="padding:7px 13px;background:#0F172A;color:#fff;border:1px solid #334155;border-radius:10px;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin:0 4px">📲 Install App</button>${apUser()}<div class="dx-clock"><b data-dxclock="t">${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</b><small data-dxclock="d">${now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</small></div></div></header>`;
   const navH=`<nav class="dx-tabs dx-nav" style="--n:${tabs.length}">${tabs.map(([k,l,i])=>`<button data-tab="${k}" class="${S.tab===k?'on':''}">${dxi(i,18)}<span>${l}</span></button>`).join('')}</nav>`;
   // ---- rail ----
   const rail=[['home','Overview','dxgo','top'],['users','Clients',boss?'dxown':'dxgo',boss?'client':'or'],['cam','Production','dxgo','pl'],...(boss?[['content','Content','gotab','br']]:[]),...(boss?[['chart','Reports','dxown','rep']]:[]),['users','Team','gotab','upd'],...(boss?[['gear','Settings','osetup','co']]:[])];
@@ -4447,7 +4498,7 @@ function apTop(){const boss=isBoss(),lead=isLeader(),today=ymd(new Date());
   let bell=0,bt='';if(boss){const raw=attRaw(today),rq=(S.reqs||[]).filter(r=>r.st==='pending').length;bell=attPeople().filter(p=>raw[p.id]&&!raw[p.id].ok).length+rq;bt=rq?rq+' attendance correction request(s) waiting':bell?bell+' attendance waiting for confirmation':'Nothing waiting'}else{const me=myPerson();bell=S.tasks.filter(x=>x.date===today&&x.pr==='urgent'&&x.done<x.target&&(x.person===me)).length;bt=bell?bell+' urgent task(s) for you':'No urgent tasks'}
   return `<header class="ap-top"><div class="ap-brand">${dnMark(56)}<div><b>ASAR MEDIA <em>DIGITAL MEDIA</em></b><small>Content Production Tracker · ${esc((S.cfg&&S.cfg.location)||'Nagercoil')} · ${esc(new Date().toLocaleDateString('en-IN',{month:'long',year:'numeric'}))}</small></div></div>
   <nav class="ap-tabs">${tabs.map(([k,l,i])=>`<button data-tab="${k}" class="${S.tab===k?'on':''}">${dxi(i,18)}${l}</button>`).join('')}</nav>
-  <div class="ap-right"><label class="ap-date">${dxi('cal',18)}<select id="dxMon" data-nokeep aria-label="Month">${mo.join('')}</select></label><button class="ap-bell" title="${esc(bt)}" data-act="gotab" data-id="${boss?((S.reqs||[]).some(r=>r.st==='pending')?'att':'own'):'upd'}">${dxi('bell',22)}${bell?`<i>${bell}</i>`:''}</button><span class="ap-sep"></span>${boss?`<button class="btn gold keep dx-inv-top-btn" data-act="open-invite" style="padding:7px 14px;background:linear-gradient(135deg,#E5322D,#B91C1C);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-right:6px">✉ Invite Team</button>`:''}${apUser()}</div></header>`}
+  <div class="ap-right"><label class="ap-date">${dxi('cal',18)}<select id="dxMon" data-nokeep aria-label="Month">${mo.join('')}</select></label><button class="ap-bell" title="${esc(bt)}" data-act="gotab" data-id="${boss?((S.reqs||[]).some(r=>r.st==='pending')?'att':'own'):'upd'}">${dxi('bell',22)}${bell?`<i>${bell}</i>`:''}</button><span class="ap-sep"></span>${boss?`<button class="btn gold keep dx-inv-top-btn" data-act="open-invite" style="padding:7px 14px;background:linear-gradient(135deg,#E5322D,#B91C1C);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-right:6px">✉ Invite Team</button>`:''}<button class="btn keep dx-pwa-btn" data-act="install-pwa" style="padding:7px 12px;background:#0F172A;color:#fff;border:1px solid #334155;border-radius:10px;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-right:6px">📲 Install App</button>${apUser()}</div></header>`}
 const AP_HERO_OLD={own:['Owner Controls','Track · Manage · Analyse · Grow','Great Content<br>Builds Greater Brands.'],upd:['My Work','Sign in · Create · Deliver','Small steps every day<br>make big brands.'],updB:['Team Work','See · Support · Celebrate','Great teams<br>make great content.'],day:['Daily Tasks','Assign · Prioritise · Deliver','Clear tasks<br>bring clean results.'],att:['Attendance','Sign in · Sign out · Stay on time','Discipline is the bridge<br>to great work.']};
 const AP_HERO={own:['Owner Controls','Track · Manage · Analyse · Grow','Great Content<br>Builds Greater Brands.'],upd:['My Work','Sign in · Create · Deliver','Small steps every day<br>make big brands.'],updB:['Team Work','See · Support · Celebrate','Great teams<br>make great content.'],br:['Content Tracker','Update by client · shot · edited · posted','Every post<br>builds the brand.'],fin:['Finance','Billing · expenses · profit & loss','Know your numbers,<br>grow your brand.'],pay:['Payroll','Salary · deductions · bonus · expenses','Fair work,<br>fair pay.'],hub:['Post Hub','One asset · every platform · every client','Post once,<br>shine everywhere.'],works:['Work Report','What we made · for whom · by who · when','Every title<br>tells our story.'],day:['Daily Tasks','Plan · Assign · Track · Deliver','Consistent Content<br>Builds Greater Brands.'],att:['Attendance','Track your daily presence and work hours','Discipline today,<br>Growth tomorrow.']};
 function apHero(k){const H=AP_HERO[k]||AP_HERO.own;return `<section class="ap-hero hk-${k}"><div><h1>${H[0]}</h1><p>${H[1]}</p></div><blockquote>“${H[2]}”<i></i></blockquote></section>`}
@@ -6597,6 +6648,102 @@ async function boot(){
   db.collection('feed').orderBy('ts','desc').limit(25).onSnapshot(s=>{S.feedRaw=s.docs.map(d=>{const x=d.data()||{};return {ts:Number(x.ts)||0,uid:String(x.uid||''),text:String(x.text||'')}});S.feed=feedCut(S.feedRaw);renderFeed();resolveNames();if(S.tab==='tv'||S.tab==='dash')render()},()=>{});
   subTasks();
   initIdentityAndInvites();
+  initPwa();
+}
+
+// --- PWA Service Worker & Install Flow ---
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  syncInstallBtn();
+  const dirBox = $('installPromptDirectBox');
+  if (dirBox) dirBox.style.display = 'block';
+});
+
+function isAppStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function syncInstallBtn() {
+  const btns = document.querySelectorAll('[data-act="install-pwa"]');
+  const standalone = isAppStandalone();
+  btns.forEach(b => {
+    if (standalone) {
+      b.innerHTML = '✓ App Installed';
+      b.style.background = '#15803D';
+      b.style.borderColor = '#15803D';
+      b.title = 'Running as installed application';
+    } else {
+      b.innerHTML = '📲 Install App';
+    }
+  });
+}
+
+function openInstallModal() {
+  if (isAppStandalone()) {
+    toast('ASAR Media Tracker is already running as an installed app ✓');
+    return;
+  }
+  const modal = $('installModal');
+  if (modal) {
+    const dirBox = $('installPromptDirectBox');
+    if (dirBox) dirBox.style.display = deferredInstallPrompt ? 'block' : 'none';
+    modal.hidden = false;
+  }
+}
+
+function doNativeInstall() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult && choiceResult.outcome === 'accepted') {
+        toast('Installing ASAR Media Tracker to your home screen... ✓');
+        const modal = $('installModal');
+        if (modal) modal.hidden = true;
+      }
+      deferredInstallPrompt = null;
+    });
+  } else {
+    toast('Follow the on-screen steps to Add to Home Screen');
+  }
+}
+
+function initPwa(){
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act="install-pwa"]');
+    if (btn) {
+      e.preventDefault();
+      openInstallModal();
+    }
+  });
+
+  const cInst1 = $('closeInstallModal');
+  if (cInst1) cInst1.addEventListener('click', () => { $('installModal').hidden = true; });
+  const cInst2 = $('closeInstallModal2');
+  if (cInst2) cInst2.addEventListener('click', () => { $('installModal').hidden = true; });
+  const imModal = $('installModal');
+  if (imModal) imModal.addEventListener('click', (e) => { if (e.target.id === 'installModal') $('installModal').hidden = true; });
+  const doNativeBtn = $('doNativeInstallBtn');
+  if (doNativeBtn) doNativeBtn.addEventListener('click', doNativeInstall);
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    syncInstallBtn();
+    toast('🎉 ASAR Media Tracker has been installed on your home screen!');
+  });
+
+  syncInstallBtn();
+
+  if ('serviceWorker' in navigator && (window.location.protocol.startsWith('http') || window.location.hostname === 'localhost')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then((reg) => {
+        console.log('ServiceWorker registered:', reg.scope);
+      }).catch((err) => {
+        console.log('ServiceWorker registration error:', err);
+      });
+    });
+  }
 }
 boot();
 })();
