@@ -3675,17 +3675,23 @@ body.tvmode .tv .nl-bub.nl-ann{animation-duration:.7s,2.4s!important;animation-i
 .id-pin-in{width:110px;padding:7px 10px;border:1px solid #CBD5E1;border-radius:8px;font-size:14px;text-align:center;letter-spacing:2px}
 
 /* --- Invite Modal --- */
-.inv-panel{max-width:650px!important;border-radius:20px!important;padding:26px!important}
+.inv-panel{max-width:680px!important;border-radius:20px!important;padding:26px!important;max-height:92vh;overflow-y:auto}
 .inv-sec{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin-bottom:14px}
 .inv-sec-title{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .inv-url-row{display:flex;gap:8px;align-items:center}
 .inv-url-in{flex:1;padding:9px 12px;border:1px solid #CBD5E1;border-radius:8px;font-size:12px;font-family:monospace;background:#fff;color:#0F172A}
-.inv-btn-copy{padding:9px 16px;background:#0F172A;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap}
+.inv-btn-copy{padding:9px 16px;background:#0F172A;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
 .inv-btn-copy:hover{background:#1E293B}
-.inv-btn-wa{background:#25D366!important}
+.inv-btn-primary{background:linear-gradient(135deg,#E5322D,#B91C1C)!important;color:#fff!important;box-shadow:0 3px 12px rgba(229,50,45,.35)}
+.inv-btn-primary:hover{box-shadow:0 5px 16px rgba(229,50,45,.5);transform:translateY(-1px)}
+.inv-btn-wa{background:#25D366!important;color:#fff!important}
 .inv-btn-wa:hover{background:#1EBE5D!important}
+.inv-btn-gmail{background:#EA4335!important;color:#fff!important}
+.inv-btn-gmail:hover{background:#D93025!important}
 .inv-preview-row{display:flex;gap:8px;align-items:center}
 .inv-preview-sel{flex:1;padding:9px 12px;border:1px solid #CBD5E1;border-radius:8px;font-size:13px;background:#fff}
+.inv-badge-live{background:#DCFCE7;color:#15803D;font-weight:700;font-size:11px;padding:3px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px}
+.inv-email-box{background:#fff;border:1px dashed #CBD5E1;border-radius:10px;padding:14px;margin-top:10px}
 </style>
 
 <div id="previewBanner" hidden>
@@ -3823,36 +3829,85 @@ body.tvmode .tv .nl-bub.nl-ann{animation-duration:.7s,2.4s!important;animation-i
       <div>
         <div class="eyebrow">Director Controls</div>
         <h2 style="margin:2px 0;font-size:20px;font-weight:800;color:#0F172A">✉ Employee Invitations &amp; Device Setup</h2>
-        <small style="color:#64748B">Share tracker link with employees &amp; test employee views</small>
+        <small style="color:#64748B">Send live invitation buttons to employees via Email or WhatsApp</small>
       </div>
       <button type="button" class="btn-ghost" id="closeInviteModal" style="padding:4px 10px;font-size:16px">✕</button>
     </div>
 
-    <div class="inv-sec">
-      <div class="inv-sec-title">🔗 Employee Invitation Link</div>
-      <div class="inv-url-row">
-        <input type="text" id="invLinkInput" class="inv-url-in" readonly>
-        <button type="button" class="inv-btn-copy" id="copyInvLinkBtn">📋 Copy Link</button>
+    <!-- Live Online Hosting Status -->
+    <div class="inv-sec" style="background:#F0FDF4;border-color:#BBF7D0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div class="inv-sec-title" style="margin-bottom:0;color:#166534">
+          <span>🌐 Live Online Tracker URL</span>
+          <span class="inv-badge-live">● Active on Web</span>
+        </div>
+        <small style="color:#15803D;font-weight:600">Opens anywhere on iOS, Android &amp; PC</small>
       </div>
-      <small style="display:block;margin-top:6px;color:#64748B">When employees open this link on phone or laptop, they will be prompted to select their name once.</small>
+      <div class="inv-url-row">
+        <input type="text" id="liveBaseUrlIn" class="inv-url-in" style="font-weight:600;color:#0F172A" value="https://shananthc.github.io/asar-media-tracker/">
+        <button type="button" class="inv-btn-copy" id="saveLiveUrlBtn" style="background:#166534">💾 Save URL</button>
+        <button type="button" class="inv-btn-copy" id="testLiveUrlBtn" style="background:#0F172A">↗ Test</button>
+      </div>
+      <small style="display:block;margin-top:6px;color:#15803D">This live web address allows team members to open the tracker on their mobile phones and computers without needing your laptop.</small>
     </div>
 
+    <!-- 1-Click Email Invitation with [ View Invitation ] Button -->
+    <div class="inv-sec">
+      <div class="inv-sec-title">
+        <span>📧 Email Invitation with <b>[ ✉ View Invitation ]</b> Button</span>
+      </div>
+      <p style="margin:0 0 10px;font-size:12px;color:#64748B">Click the red button below to copy the complete formatted email. When you paste (Cmd + V) into Gmail, it will paste an official ASAR Media card with an interactive, clickable <b>[ ✉ View Invitation &amp; Open Tracker ]</b> button!</p>
+      
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+        <button type="button" class="inv-btn-copy inv-btn-primary" id="copyRichEmailBtn" style="padding:10px 18px;font-size:13px">
+          ✉ Copy Email with [ View Invitation ] Button
+        </button>
+        <button type="button" class="inv-btn-copy inv-btn-gmail" id="openGmailComposerBtn">
+          ↗ Open in Gmail Compose
+        </button>
+        <button type="button" class="inv-btn-copy" id="copyPlainEmailBtn" style="background:#64748B">
+          📋 Copy Plain Text
+        </button>
+      </div>
+
+      <!-- Live Email Card Preview inside Modal -->
+      <div class="inv-email-box">
+        <div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Visual Preview of what pastes into Gmail:</div>
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:14px;text-align:center">
+          <span style="display:inline-block;background:#E5322D;color:#fff;font-weight:900;font-size:11px;padding:3px 10px;border-radius:12px;letter-spacing:1px">ASAR MEDIA</span>
+          <h4 style="margin:6px 0 2px;font-size:15px;font-weight:800;color:#0F172A">Daily Production &amp; Attendance Tracker</h4>
+          <p style="margin:4px 0 12px;font-size:12px;color:#64748B">Official Workstation Portal for SHAMI, RINISHA, ASHMIJA &amp; JENOLOVIN</p>
+          <div style="margin:10px 0">
+            <span style="background:linear-gradient(135deg,#E5322D,#B91C1C);color:#fff;font-size:13px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;box-shadow:0 3px 10px rgba(229,50,45,0.35)">
+              ✉ View Invitation &amp; Open Tracker
+            </span>
+          </div>
+          <small style="color:#94A3B8;font-size:11px">Clicking this in Gmail automatically opens the tracker &amp; device identity setup</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1-Click WhatsApp Invite -->
     <div class="inv-sec">
       <div class="inv-sec-title">💬 1-Click WhatsApp Invite</div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <button type="button" class="inv-btn-copy inv-btn-wa" id="copyWaInviteBtn">💬 Copy WhatsApp Message</button>
-        <small style="color:#64748B">Formatted with instructions for SHAMI, RINISHA, ASHMIJA &amp; JENOLOVIN</small>
+        <button type="button" class="inv-btn-copy inv-btn-wa" id="openWhatsAppWebBtn" style="background:#128C7E!important">↗ Open in WhatsApp</button>
+        <small style="color:#64748B;flex:1 1 100%">Formatted with clickable live web link and instructions for all 4 team members.</small>
       </div>
     </div>
 
+    <!-- Direct Invite Link -->
     <div class="inv-sec">
-      <div class="inv-sec-title">📧 1-Click Email Invitation</div>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <button type="button" class="inv-btn-copy" id="copyEmailInviteBtn">📧 Copy Email Template</button>
-        <small style="color:#64748B">Includes subject &amp; clear instructions for attendance and shift tracking</small>
+      <div class="inv-sec-title">🔗 Direct Invitation Link (Copy Only)</div>
+      <div class="inv-url-row">
+        <input type="text" id="invLinkInput" class="inv-url-in" readonly>
+        <button type="button" class="inv-btn-copy" id="copyInvLinkBtn">📋 Copy Link</button>
       </div>
+      <small style="display:block;margin-top:6px;color:#64748B">When opened, it brings up the 4-person profile picker (SHAMI, RINISHA, ASHMIJA, JENOLOVIN).</small>
     </div>
 
+    <!-- Test Preview -->
     <div class="inv-sec">
       <div class="inv-sec-title">👁 Test Employee View (Live Preview)</div>
       <div class="inv-preview-row">
@@ -3864,9 +3919,10 @@ body.tvmode .tv .nl-bub.nl-ann{animation-duration:.7s,2.4s!important;animation-i
         </select>
         <button type="button" class="btn gold" id="launchPreviewBtn">👁 Preview View</button>
       </div>
-      <small style="display:block;margin-top:6px;color:#64748B">See exactly what the employee sees. You can return to Director View anytime with one click.</small>
+      <small style="display:block;margin-top:6px;color:#64748B">Test the exact employee view. You can return to Director View anytime with one click.</small>
     </div>
 
+    <!-- Device Reset -->
     <div class="inv-sec" style="margin-bottom:0">
       <div class="inv-sec-title">🔄 Device Identity Reset</div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
@@ -5660,9 +5716,53 @@ function checkIdentityPrompt(){
   }
 }
 
+function getLiveBaseUrl(){
+  const custom = localStorage.getItem('asar_live_url');
+  if(custom && custom.trim()) return custom.trim().replace(/\/+$/,'');
+  if(window.location.protocol.startsWith('http')){
+    return window.location.origin + window.location.pathname.replace(/\/index\.html$/,'').replace(/\/+$/,'');
+  }
+  return 'https://shananthc.github.io/asar-media-tracker';
+}
+
+function getLiveInviteUrl(){
+  const base = getLiveBaseUrl();
+  return base + (base.includes('?') ? '&' : '/') + '?invite=team';
+}
+
+function syncInviteInputs(){
+  const liveBase = getLiveBaseUrl();
+  const fullInvite = getLiveInviteUrl();
+  const bIn = $('liveBaseUrlIn'); if(bIn) bIn.value = liveBase;
+  const iIn = $('invLinkInput'); if(iIn) iIn.value = fullInvite;
+}
+
+function saveLiveUrl(){
+  const bIn = $('liveBaseUrlIn');
+  if(!bIn) return;
+  const val = bIn.value.trim();
+  if(!val){
+    localStorage.removeItem('asar_live_url');
+  } else {
+    try {
+      new URL(val.startsWith('http') ? val : 'https://' + val);
+      localStorage.setItem('asar_live_url', val.startsWith('http') ? val : 'https://' + val);
+    } catch(_){
+      toast('Please enter a valid URL (e.g. https://shananthc.github.io/asar-media-tracker)', true);
+      return;
+    }
+  }
+  syncInviteInputs();
+  toast('Live URL saved ✓');
+}
+
+function testLiveUrl(){
+  const url = getLiveInviteUrl();
+  window.open(url, '_blank');
+}
+
 function openInviteModal(){
-  const inUrl=window.location.href.split('?')[0]+'?invite=team';
-  const inp=$('invLinkInput');if(inp)inp.value=inUrl;
+  syncInviteInputs();
   $('inviteModal').hidden=false;
 }
 
@@ -5671,32 +5771,130 @@ function closeInviteModal(){
 }
 
 function copyInviteLink(){
-  const inp=$('invLinkInput');if(!inp)return;
-  navigator.clipboard.writeText(inp.value).then(()=>{
-    toast('Invitation link copied to clipboard ✓');
+  const url = getLiveInviteUrl();
+  navigator.clipboard.writeText(url).then(()=>{
+    toast('Live invitation link copied to clipboard ✓');
   }).catch(()=>{
-    inp.select();document.execCommand('copy');toast('Invitation link copied ✓');
+    const inp = $('invLinkInput');
+    if(inp){ inp.select(); document.execCommand('copy'); }
+    toast('Live invitation link copied ✓');
   });
 }
 
+function buildEmailHtml(url){
+  return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:580px;margin:0 auto;padding:26px 22px;background:#ffffff;border:1px solid #E2E8F0;border-radius:16px;color:#0F172A;box-shadow:0 4px 20px rgba(0,0,0,0.05)">
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="display:inline-block;background:#E5322D;color:#ffffff;font-weight:900;font-size:13px;padding:6px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase">ASAR MEDIA</div>
+    <h2 style="margin:10px 0 2px;font-size:22px;font-weight:800;color:#0F172A">Daily Production &amp; Attendance Tracker</h2>
+    <div style="font-size:13px;color:#64748B">Digital Marketing &amp; Web Development</div>
+  </div>
+
+  <p style="font-size:15px;line-height:1.6;color:#334155;margin:0 0 12px">Dear Team,</p>
+  <p style="font-size:15px;line-height:1.6;color:#334155;margin:0 0 22px">Welcome to ASAR Media's daily production tracker. Please click the invitation button below on your phone or laptop to access your workspace and sign in for today:</p>
+
+  <div style="text-align:center;margin:28px 0">
+    <a href="${url}" target="_blank" style="background:linear-gradient(135deg,#E5322D,#B91C1C);background-color:#E5322D;color:#ffffff!important;font-size:15px;font-weight:800;text-decoration:none;padding:15px 32px;border-radius:10px;display:inline-block;letter-spacing:0.3px;box-shadow:0 4px 14px rgba(229,50,45,0.35)">
+      ✉ View Invitation &amp; Open Tracker
+    </a>
+  </div>
+
+  <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin:22px 0;font-size:13px;color:#475569;line-height:1.7">
+    <strong style="color:#0F172A;display:block;margin-bottom:6px">📋 Instructions for First-Time Entry:</strong>
+    1. Tap <strong>View Invitation &amp; Open Tracker</strong> above on your phone or computer.<br>
+    2. Choose your name (<strong>SHAMI</strong> · <strong>RINISHA</strong> · <strong>ASHMIJA</strong> · <strong>JENOLOVIN</strong>).<br>
+    3. Confirm to lock your device to your profile.<br>
+    4. Tap <strong>Present</strong> when arriving — time &amp; date are recorded automatically.<br>
+    5. Submit your daily deliverables and sign out when leaving.
+  </div>
+
+  <p style="font-size:12px;color:#94A3B8;word-break:break-all;margin:16px 0 0">
+    Direct link: <a href="${url}" style="color:#E5322D;text-decoration:underline">${url}</a>
+  </p>
+
+  <hr style="border:none;border-top:1px solid #E2E8F0;margin:22px 0 14px">
+  <p style="font-size:13px;color:#64748B;margin:0">
+    Best regards,<br>
+    <strong style="color:#0F172A">Director SHAMITH</strong><br>
+    ASAR Media HQ
+  </p>
+</div>`;
+}
+
+function buildEmailPlain(url){
+  return `Subject: ASAR Media Tracker · Daily Work & Attendance Login\n\nDear Team,\n\nWelcome to ASAR Media's daily content production tracker.\n\nPlease open your invitation below to start:\n${url}\n\nInstructions:\n1. Click the link above.\n2. Select your name from the roster (SHAMI / RINISHA / ASHMIJA / JENOLOVIN).\n3. Confirm identity — permanently links your device.\n4. Sign in upon arrival each morning (automatic time & date).\n5. Log finished work and sign out at end of shift.\n\nBest regards,\nDirector SHAMITH\nASAR Media HQ`;
+}
+
+async function copyRichEmailInvite(){
+  const url = getLiveInviteUrl();
+  const html = buildEmailHtml(url);
+  const plain = buildEmailPlain(url);
+
+  try {
+    if(navigator.clipboard && window.ClipboardItem){
+      const blobHtml = new Blob([html], { type: 'text/html' });
+      const blobText = new Blob([plain], { type: 'text/plain' });
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'text/html': blobHtml, 'text/plain': blobText })
+      ]);
+      toast('Copied! Now press Cmd+V in Gmail to paste the email with the [View Invitation] button ✓');
+      return;
+    }
+  } catch(e) {
+    console.warn('ClipboardItem write failed, trying fallback', e);
+  }
+
+  try {
+    const container = document.createElement('div');
+    container.innerHTML = html;
+    container.style.position = 'fixed';
+    container.style.left = '-9999px';
+    container.setAttribute('contenteditable', 'true');
+    document.body.appendChild(container);
+    container.focus();
+    const range = document.createRange();
+    range.selectNodeContents(container);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    document.body.removeChild(container);
+    toast('Copied! Now press Cmd+V in Gmail to paste the email with the [View Invitation] button ✓');
+  } catch(e2) {
+    navigator.clipboard.writeText(plain).then(()=>{
+      toast('Email template copied (plain text) ✓');
+    });
+  }
+}
+
+function copyPlainEmailInvite(){
+  const url = getLiveInviteUrl();
+  const plain = buildEmailPlain(url);
+  navigator.clipboard.writeText(plain).then(()=>{
+    toast('Plain text email template copied ✓');
+  });
+}
+
+function openGmailComposer(){
+  const url = getLiveInviteUrl();
+  const su = encodeURIComponent('ASAR Media Tracker · Daily Work & Attendance Login');
+  const body = encodeURIComponent(buildEmailPlain(url));
+  window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${su}&body=${body}`, '_blank');
+}
+
 function copyWaInvite(){
-  const inUrl=window.location.href.split('?')[0]+'?invite=team';
+  const inUrl = getLiveInviteUrl();
   const msg=`🚀 *ASAR Media — Daily Production & Attendance Tracker*\n\nHi Team! Please open the tracker link below on your phone or laptop:\n👉 ${inUrl}\n\n📌 *Instructions:*\n1. Select your name when opening:\n   • *SHAMI* (Production Specialist)\n   • *RINISHA* (Video Editor)\n   • *ASHMIJA* (Visual Designer)\n   • *JENOLOVIN* (Publishing Specialist)\n2. Tap "Confirm" to lock your profile to your device.\n3. Tap *Present* when you arrive — your clock-in time and date are recorded automatically.\n4. Complete and submit your daily deliverables on your dashboard.\n5. Tap *Sign out* when leaving.\n\nLet's make today productive! 🚀`;
   navigator.clipboard.writeText(msg).then(()=>{
-    toast('WhatsApp invitation message copied ✓');
+    toast('WhatsApp invitation message copied with live link ✓');
   }).catch(()=>{
     toast('Copy failed. Please copy the link manually.',true);
   });
 }
 
-function copyEmailInvite(){
-  const inUrl=window.location.href.split('?')[0]+'?invite=team';
-  const emailTxt=`Subject: ASAR Media Tracker · Daily Work & Attendance Login\n\nDear Team,\n\nWelcome to ASAR Media's daily content production tracker.\n\nPlease open the link below on your phone or workstation:\n${inUrl}\n\nInstructions:\n1. Open the link above.\n2. Select your name from the roster (SHAMI / RINISHA / ASHMIJA / JENOLOVIN).\n3. Confirm your identity — this will permanently link this device to your daily tracking profile.\n4. Sign in upon arrival each morning — sign-in time and date are stamped automatically.\n5. Log your finished work and sign out at the end of your shift.\n\nBest regards,\nDirector SHAMITH\nASAR Media HQ`;
-  navigator.clipboard.writeText(emailTxt).then(()=>{
-    toast('Email invitation template copied ✓');
-  }).catch(()=>{
-    toast('Copy failed. Please copy manually.',true);
-  });
+function openWhatsAppWeb(){
+  const inUrl = getLiveInviteUrl();
+  const msg=`🚀 *ASAR Media — Daily Production & Attendance Tracker*\n\nHi Team! Please open the tracker link below on your phone or laptop:\n👉 ${inUrl}\n\n📌 *Instructions:*\n1. Select your name when opening:\n   • *SHAMI* (Production Specialist)\n   • *RINISHA* (Video Editor)\n   • *ASHMIJA* (Visual Designer)\n   • *JENOLOVIN* (Publishing Specialist)\n2. Tap "Confirm" to lock your profile to your device.\n3. Tap *Present* when you arrive — your clock-in time and date are recorded automatically.\n4. Complete and submit your daily deliverables on your dashboard.\n5. Tap *Sign out* when leaving.`;
+  window.open(`https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 function launchPreview(){
@@ -5744,7 +5942,12 @@ function initIdentityAndInvites(){
   const im=$('inviteModal');if(im)im.addEventListener('click',e=>{if(e.target.id==='inviteModal')closeInviteModal()});
   const cpL=$('copyInvLinkBtn');if(cpL)cpL.addEventListener('click',copyInviteLink);
   const cpW=$('copyWaInviteBtn');if(cpW)cpW.addEventListener('click',copyWaInvite);
-  const cpE=$('copyEmailInviteBtn');if(cpE)cpE.addEventListener('click',copyEmailInvite);
+  const opW=$('openWhatsAppWebBtn');if(opW)opW.addEventListener('click',openWhatsAppWeb);
+  const cpR=$('copyRichEmailBtn');if(cpR)cpR.addEventListener('click',copyRichEmailInvite);
+  const cpP=$('copyPlainEmailBtn');if(cpP)cpP.addEventListener('click',copyPlainEmailInvite);
+  const opG=$('openGmailComposerBtn');if(opG)opG.addEventListener('click',openGmailComposer);
+  const svU=$('saveLiveUrlBtn');if(svU)svU.addEventListener('click',saveLiveUrl);
+  const tsU=$('testLiveUrlBtn');if(tsU)tsU.addEventListener('click',testLiveUrl);
   const lp=$('launchPreviewBtn');if(lp)lp.addEventListener('click',launchPreview);
   const ep=$('exitPreviewBtn');if(ep)ep.addEventListener('click',stopPreview);
   const rst=$('resetLocalIdentityBtn');if(rst)rst.addEventListener('click',resetLocalIdentity);
